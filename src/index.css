@@ -1,0 +1,314 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Modern Design System Variables */
+:root {
+  /* Colors */
+  --color-text-primary: #1e293b;
+  --color-accent: #0ea5e9;
+  --color-background: #f8fafc;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.07);
+  
+  /* Transitions */
+  --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Glass Effect */
+  --glass-background: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #0ea5e9, #38bdf8);
+  --gradient-surface: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8));
+}
+
+/* Material 3 Design System Variables */
+:root {
+  /* Surface Colors */
+  --md-sys-color-surface: 255 255 255;
+  --md-sys-color-surface-container: 248 249 255;
+  --md-sys-color-surface-container-low: 244 245 251;
+  --md-sys-color-surface-container-high: 252 253 255;
+  
+  /* Elevation Shadows */
+  --md-elevation-1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
+  --md-elevation-2: 0 3px 6px rgba(0,0,0,0.15), 0 2px 4px rgba(0,0,0,0.12);
+  --md-elevation-3: 0 10px 20px rgba(0,0,0,0.15), 0 3px 6px rgba(0,0,0,0.10);
+  
+  /* State Layer Opacities */
+  --md-state-hover-opacity: 0.08;
+  --md-state-focus-opacity: 0.12;
+  --md-state-pressed-opacity: 0.12;
+  --md-state-dragged-opacity: 0.16;
+}
+
+/* Material Design Components */
+@layer components {
+  /* Modern Card Styles */
+  .glass-card {
+    @apply backdrop-blur-md bg-white/60 border border-white/20
+           shadow-lg rounded-xl transition-all duration-500
+           hover:shadow-xl hover:bg-white/70
+           hover:border-white/30;
+  }
+
+  .glass-button {
+    @apply backdrop-blur-md bg-white/60 border border-white/20
+           shadow-sm rounded-full px-4 py-2 transition-all duration-500
+           hover:shadow-md hover:bg-white/70 hover:scale-[1.02]
+           active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .glass-input {
+    @apply backdrop-blur-md bg-white/60 border border-white/20
+           shadow-sm rounded-xl px-4 py-2 transition-all duration-500
+           focus:shadow-md focus:bg-white/70 focus:outline-none
+           focus:ring-2 focus:ring-primary-500/20;
+  }
+
+  .md-card {
+    @apply glass-card;
+  }
+
+  .md-card-elevated {
+    @apply glass-card shadow-lg;
+  }
+
+  .md-button {
+    @apply glass-button;
+  }
+
+  .md-button-filled {
+    @apply md-button bg-gradient-to-r from-primary-600 to-primary-500
+           text-white hover:from-blue-500 hover:to-blue-400;
+  }
+
+  .md-button-tonal {
+    @apply glass-button text-blue-600;
+  }
+
+  .md-button-outlined {
+    @apply glass-button border-gray-200;
+  }
+
+  .md-empty-state {
+    @apply flex flex-col items-center justify-center p-8 rounded-xl transform
+           backdrop-blur-md bg-white/30 border-2 border-dashed border-gray-200
+           transition-all duration-500 hover:bg-white/40;
+  }
+
+  .md-locked-state {
+    @apply flex flex-col items-center justify-center p-8 rounded-xl transform
+           backdrop-blur-md bg-white/30 border-2 border-dashed border-gray-200
+           transition-all duration-500 hover:bg-white/40
+           text-gray-500;
+  }
+
+  .md-surface {
+    @apply backdrop-blur-md bg-white/70;
+  }
+
+  .md-surface-container {
+    @apply backdrop-blur-md bg-white/70;
+  }
+
+  .md-elevation-1 {
+    @apply shadow-sm;
+  }
+
+  .md-elevation-2 {
+    @apply shadow-md;
+  }
+
+  .md-elevation-3 {
+    @apply shadow-lg;
+  }
+
+  .md-state-layer {
+    @apply transition-opacity duration-200;
+  }
+
+  .md-state-layer:hover {
+    opacity: var(--md-state-hover-opacity);
+  }
+
+  .md-state-layer:focus {
+    opacity: var(--md-state-focus-opacity);
+  }
+
+  .md-state-layer:active {
+    opacity: var(--md-state-pressed-opacity);
+  }
+}
+
+/* Custom Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-slideIn {
+  animation: slideIn 0.5s ease-out forwards;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Speed Dial Animation */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Gradient Text */
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-primary-400;
+}
+
+/* ElevenLabs Widget Customization */
+elevenlabs-convai {
+  --elevenlabs-widget-primary-color: var(--color-accent);
+  --elevenlabs-widget-font-family: system-ui, -apple-system, sans-serif;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+elevenlabs-convai::part(widget) {
+  border: none;
+  box-shadow: none;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  position: relative;
+  right: auto;
+  bottom: auto;
+  background: transparent;
+}
+
+elevenlabs-convai::part(message) {
+  @apply backdrop-blur-md bg-white/60;
+  border-radius: 1rem;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  @apply shadow-sm;
+}
+
+elevenlabs-convai::part(input) {
+  @apply backdrop-blur-md bg-white/50;
+  border-radius: 1rem;
+  padding: 0.75rem 1rem;
+  margin-top: 1rem;
+  @apply shadow-sm;
+}
+
+.speed-dial-item {
+  animation: slideInUp 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Anomaly Card Animation */
+@keyframes pulseAnomaly {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+.animate-anomaly-pulse {
+  animation: pulseAnomaly 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Modal Animation */
+@keyframes modalSlideIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.98) translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Improve backdrop blur performance */
+@supports (backdrop-filter: blur(8px)) {
+  .backdrop-blur-modal {
+    backdrop-filter: blur(8px);
+    @apply bg-black/40;
+  }
+}
+
+@supports not (backdrop-filter: blur(8px)) {
+  .backdrop-blur-modal {
+    @apply bg-black/60;
+  }
+}
+
+.animate-modalSlideIn {
+  animation: modalSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Background Blur Effect */
+.blur-effect {
+  transition: filter 0.3s ease-out;
+  filter: blur(5px) brightness(0.95);
+}
+
+/* Modal Content Transitions */
+.modal-content-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.modal-content-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.3s ease-out;
+}
+
+.modal-content-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.modal-content-exit-active {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease-in;
+}
