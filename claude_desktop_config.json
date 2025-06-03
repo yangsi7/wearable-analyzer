@@ -1,0 +1,146 @@
+{
+  "mcpServers": {
+    "brave-search": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-brave-search"
+      ],
+      "env": {
+        "BRAVE_API_KEY":""
+      }
+    },
+    "supabase": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@supabase/mcp-server-supabase@latest",
+        "--access-token",
+        ""
+      ]
+    },
+    "memory": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-knowledge-graph",
+        "--memory-path",
+        "/Users/shaneholloman/Dropbox/shane/db/memory.jsonl"
+      ],
+      "autoapprove": [
+        "create_entities",
+        "create_relations",
+        "add_observations",
+        "delete_entities",
+        "delete_observations",
+        "delete_relations",
+        "read_graph",
+        "search_nodes",
+        "open_nodes"
+      ]
+    },
+    "google-sheets": {
+      "command": "uvx",
+      "args": ["mcp-google-sheets"],
+      "env": {
+        "SERVICE_ACCOUNT_PATH": "",
+        "DRIVE_FOLDER_ID": "-"
+      },
+      "healthcheck_url": "http://localhost:8000/health"
+    },
+    "mcp-atlassian": {
+      "command": "uvx",
+      "args": [
+        "mcp-atlassian",
+        "--confluence-url=https://myant.atlassian.net/wiki",
+        "--confluence-username=simon.yang@myant.ca",
+        "--confluence-token=",
+        "--jira-url=https://myant.atlassian.net",
+        "--jira-username=simon.yang@myant.ca",
+        "--jira-token=",
+        "--verbose"
+      ]
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp@latest"]
+    },
+    "21st-dev": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@21st-dev/magic@latest"
+      ],
+      "env": {
+        "API_KEY": ""
+      }
+    },
+    "calculator": {
+      "command": "uvx",
+      "args": [
+        "mcp-server-calculator"
+      ]
+    },
+    "package-version": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-package-version"
+      ]
+    },
+    "cognee": {
+      "command": "/Users/yangsim/Nanoleq/sideProjects/cognee/cognee-mcp/.venv/bin/uv",
+      "args": [
+        "--directory",
+        "/Users/yangsim/Nanoleq/sideProjects/cognee/cognee-mcp",
+        "run",
+        "cognee"
+      ],
+      "env": {
+        "ENV": "local",
+        "TOKENIZERS_PARALLELISM": "false",
+        "LLM_API_KEY": ""
+      }
+    },
+    "n8n-local": {
+      "command": "node",
+      "args": [
+        "/Users/yangsim/Nanoleq/sideProjects/n8n-mcp-server/build/index.js"
+      ],
+      "env": {
+        "N8N_API_URL": "https://agent5meo.app.n8n.cloud/api/v1",
+        "N8N_API_KEY": "",
+        "N8N_WEBHOOK_USERNAME": "n8n-user",
+        "N8N_WEBHOOK_PASSWORD": "fart-Soup-suck-My-Dick"
+      },
+      "disabled": false,
+      "autoApprove": []
+    },
+    "desktop-commander": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@wonderwhy-er/desktop-commander"
+      ]
+    },
+    "crawl4ai-rag": {
+      "command": "docker",
+      "args": ["run", "--rm", "-i",
+               "-e", "TRANSPORT",
+               "-e", "OPENAI_API_KEY",
+               "-e", "SUPABASE_URL",
+               "-e", "SUPABASE_SERVICE_KEY",
+               "mcp/crawl4ai-rag"],
+      "env": {
+        "TRANSPORT": "stdio",
+        "OPENAI_API_KEY": "",
+        "SUPABASE_URL": "https://trfrikhxxtzmknjmpgub.supabase.co",
+        "SUPABASE_SERVICE_KEY": ""
+      }
+    },
+    "puppeteer": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-puppeteer"]
+    }
+  }
+}
