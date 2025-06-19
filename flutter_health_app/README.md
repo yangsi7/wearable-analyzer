@@ -44,6 +44,19 @@ A Flutter application that integrates with Apple Health (HealthKit) and Google H
    - Ensure your `android/app/build.gradle` has `minSdkVersion 26` or higher
    - Install Google Health Connect app on your test device
    - The AndroidManifest.xml already includes required health permissions
+### setup (doesn't need to be run)
+
+
+1. create platforms
+flutter create --platforms=windows,macos,linux .
+flutter create --platforms=web .
+
+2. If it is stuck rebuild 
+
+flutter clean
+flutter pub get
+flutter run -d chrome --verbose
+
 
 ### Running the App
 
@@ -56,6 +69,24 @@ A Flutter application that integrates with Apple Health (HealthKit) and Google H
    ```bash
    flutter run -d android
    ```
+   
+3. **For Web/Desktop (optional)**
+   ```bash
+   flutter run -d web-server
+    flutter run -d chrome
+    flutter run -d windows
+    ```
+
+## usefull command 
+
+
+flutter devices
+
+flutter emulators
+flutter emulators --launch Medium_Phone_API_36
+flutter run -d emulator-5554
+
+
 
 ## Testing Instructions
 

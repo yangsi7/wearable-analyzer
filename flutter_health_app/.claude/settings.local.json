@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(flutter clean:*)",
+      "Bash(flutter pub:*)",
+      "Bash(/mnt/c/Users/a897173/flutter-sdk/flutter/bin/flutter.bat clean)",
+      "Bash(mkdir:*)"
+    ],
+    "deny": []
+  }
+}

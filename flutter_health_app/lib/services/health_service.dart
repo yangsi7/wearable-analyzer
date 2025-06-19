@@ -121,7 +121,7 @@ class HealthService {
     if (heartRateData.isEmpty) return null;
 
     final values = heartRateData
-        .map((point) => point.value.toDouble())
+        .map((point) => _convertToDouble(point.value))
         .where((value) => value > 0);
 
     if (values.isEmpty) return null;
@@ -141,12 +141,26 @@ class HealthService {
     if (stepsData.isEmpty) return null;
 
     return stepsData
-        .map((point) => point.value.toInt())
+        .map((point) => _convertToInt(point.value))
         .reduce((a, b) => a + b);
   }
 
   Future<bool> isHealthConnectAvailable() async {
     await initialize();
     return await _health.isDataTypeAvailable(HealthDataType.STEPS);
+  }
+
+  double _convertToDouble(HealthValue value) {
+    if (value is NumericHealthValue) {
+      return value.numericValue.toDouble();
+    }
+    return 0.0;
+  }
+
+  int _convertToInt(HealthValue value) {
+    if (value is NumericHealthValue) {
+      return value.numericValue.toInt();
+    }
+    return 0;
   }
 }

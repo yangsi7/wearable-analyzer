@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(flutter create:*)",
+      "Bash(*)",
+      "File(*)",
+      "Git(*)",
+      "Node(*)",
+      "Python(*)"
+    ],
+    "deny": []
+  }
+}

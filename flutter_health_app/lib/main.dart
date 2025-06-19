@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:health/health.dart';
+import 'features/auth/presentation/login_page.dart';
+import 'features/auth/presentation/signup_page.dart';
+import 'features/dashboard/presentation/dashboard_page.dart';
+import 'features/chat/presentation/chat_page.dart';
 import 'services/health_service.dart';
 
 void main() {
@@ -12,12 +17,86 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Health App',
+      title: 'Health Monitoring App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
+        appBarTheme: AppBarTheme(
+          centerTitle: true,
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          foregroundColor: Colors.blue.shade700,
+        ),
+        cardTheme: CardTheme(
+          elevation: 2,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            padding: const EdgeInsets.symmetric(vertical: 12),
+          ),
+        ),
       ),
-      home: const HealthHomePage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const AuthCheckPage(),
+        '/login': (context) => const LoginPage(),
+        '/signup': (context) => const SignUpPage(),
+        '/dashboard': (context) => const DashboardPage(),
+        '/chat': (context) => const ChatPage(),
+        '/legacy': (context) => const HealthHomePage(),
+      },
+    );
+  }
+}
+
+class AuthCheckPage extends StatefulWidget {
+  const AuthCheckPage({super.key});
+
+  @override
+  State<AuthCheckPage> createState() => _AuthCheckPageState();
+}
+
+class _AuthCheckPageState extends State<AuthCheckPage> {
+  @override
+  void initState() {
+    super.initState();
+    _checkAuth();
+  }
+
+  Future<void> _checkAuth() async {
+    await Future.delayed(const Duration(seconds: 1));
+    
+    if (mounted) {
+      Navigator.of(context).pushReplacementNamed('/dashboard');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.health_and_safety,
+              size: 80,
+              color: Theme.of(context).primaryColor,
+            ),
+            const SizedBox(height: 24),
+            Text(
+              'Health Monitor',
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 16),
+            const CircularProgressIndicator(),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -52,6 +131,15 @@ class _HealthHomePageState extends State<HealthHomePage> {
     });
 
     try {
+      if (kIsWeb) {
+        setState(() {
+          _status = 'Web platform detected. Health data not available on web. Use mobile app for real health data.';
+          _hasPermissions = false;
+        });
+        _showMockData();
+        return;
+      }
+
       await _healthService.initialize();
       setState(() {
         _status = 'Initialized. Requesting permissions...';
@@ -119,6 +207,43 @@ class _HealthHomePageState extends State<HealthHomePage> {
         _isLoading = false;
       });
     }
+  }
+
+  void _showMockData() {
+    setState(() {
+      _hasPermissions = true;
+      _averageHeartRate = 72.5;
+      _totalSteps = 8420;
+      _healthData = _generateMockHealthData();
+    });
+  }
+
+  List<HealthDataPoint> _generateMockHealthData() {
+    final now = DateTime.now();
+    return [
+      HealthDataPoint(
+        value: NumericHealthValue(numericValue: 72),
+        type: HealthDataType.HEART_RATE,
+        unit: HealthDataUnit.BEATS_PER_MINUTE,
+        dateFrom: now.subtract(const Duration(hours: 1)),
+        dateTo: now.subtract(const Duration(hours: 1)),
+        sourcePlatform: HealthPlatformType.appleHealth,
+        sourceDeviceId: 'mock-device',
+        sourceId: 'mock-source',
+        sourceName: 'Mock Health Data',
+      ),
+      HealthDataPoint(
+        value: NumericHealthValue(numericValue: 1500),
+        type: HealthDataType.STEPS,
+        unit: HealthDataUnit.COUNT,
+        dateFrom: now.subtract(const Duration(hours: 2)),
+        dateTo: now.subtract(const Duration(hours: 1)),
+        sourcePlatform: HealthPlatformType.googleFit,
+        sourceDeviceId: 'mock-device',
+        sourceId: 'mock-source',
+        sourceName: 'Mock Health Data',
+      ),
+    ];
   }
 
   @override
@@ -244,8 +369,8 @@ class _HealthHomePageState extends State<HealthHomePage> {
       ),
       floatingActionButton: _hasPermissions
           ? FloatingActionButton(
-              onPressed: _fetchHealthData,
-              tooltip: 'Refresh Data',
+              onPressed: kIsWeb ? _showMockData : _fetchHealthData,
+              tooltip: kIsWeb ? 'Refresh Mock Data' : 'Refresh Data',
               child: const Icon(Icons.refresh),
             )
           : FloatingActionButton(
